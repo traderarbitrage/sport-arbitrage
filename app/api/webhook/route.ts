@@ -1,0 +1,4 @@
+import Stripe from 'stripe';
+import {headers} from 'next/headers';
+import {NextResponse} from 'next/server';
+export async function POST(req:Request){const secret=process.env.STRIPE_WEBHOOK_SECRET;const key=process.env.STRIPE_SECRET_KEY;if(!secret||!key)return NextResponse.json({error:'Webhook non configurato'},{status:503});const signature=(await headers()).get('stripe-signature');if(!signature)return NextResponse.json({error:'Firma mancante'},{status:400});const body=await req.text();try{const event=new Stripe(key).webhooks.constructEvent(body,signature,secret);if(event.type==='checkout.session.completed'){/* TODO: associa customer e subscription all'utente autenticato nel database, con gestione idempotente */}if(event.type==='customer.subscription.deleted'){/* TODO: revoca l'accesso all'utente nel database */}return NextResponse.json({received:true})}catch{return NextResponse.json({error:'Firma non valida'},{status:400})}}

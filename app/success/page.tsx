@@ -1,0 +1,1 @@
+export default function Success(){return <main style={{maxWidth:650,margin:'100px auto',padding:24}}><h1>Checkout completato</h1><p>Il pagamento sarà verificato tramite Stripe. L'accesso alla piattaforma sarà attivato soltanto dopo la conferma lato server e la configurazione dell'account.</p><a href="/" style={{color:'#a3ff7c'}}>Torna alla homepage</a></main>}
